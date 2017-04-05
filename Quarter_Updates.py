@@ -14,6 +14,7 @@ Gradebook = pd.read_csv("/Users/tylerworthington/Desktop/extract (4).csv")
 # period4 = pd.read_csv("/Users/tylerworthington/Desktop/extract (7).csv")
 # period5 = pd.read_csv("/Users/tylerworthington/Desktop/extract (8).csv")
 # number of columns of interest
+Gradebook = Gradebook.tail(14)
 numcolumns = len(Gradebook.columns)
 
 # parent emails
@@ -44,10 +45,10 @@ parents['Parents First Name'] = parents['Name of Parent'].apply(
     lambda row: (str(row).split(",")[1]))
 
 # common key
+
 parents["Full Name"] = parents['First Name'].map(str) + parents['Last Name']
 
 Gradebook = pd.merge(Gradebook, parents, how="left")
-
 
 # create id variable and dictionary
 keys = np.array(range(0, len(Gradebook)))
@@ -71,27 +72,28 @@ for i in range(0, numcolumns):
     except TypeError:
         pass
 
+# raw input
+teacher_email = input("teacher_email: ")
+password = input("password: ")
+
 for i in range(0, len(Gradebook['First Name'])):
 
     # grab students name and lowercase it
     students_name = (Gradebook['First Name'][i]).title()
 
-    # grab parents name
-    parents_first_name = (Gradebook['Parents First Name'][i]).title()
-    parents_last_name = (Gradebook['Parents Last Name'][i]).title()
-
-    # grab parents email
-    parents_email = Gradebook['Parent Email'][i]
-
     # grab student email
     student_email = Gradebook['Student Email'][i]
-
-    # check if missing
+    # grab parents name
     if Gradebook['Parent Email'][i] is np.nan:
         pass
 
    # check if student actually missing any assignments
     else:
+        parents_first_name = (Gradebook['Parents First Name'][i]).title()
+        parents_last_name = (Gradebook['Parents Last Name'][i]).title()
+        # grab parents email
+        parents_email = Gradebook['Parent Email'][i]
+
         if Missing_assignments[i] is not None:
 
             # how many assignments
@@ -122,8 +124,7 @@ for i in range(0, len(Gradebook['First Name'])):
 
             # send email
             toaddrs = []
-            fromaddr = input("teacher_email")
-            password = input("password")
+            fromaddr = teacher_email
             toaddrs.append(parents_email)
             toaddrs.append(student_email)
             msg = "\r\n".join([
@@ -135,12 +136,12 @@ for i in range(0, len(Gradebook['First Name'])):
                 "" + message + ""
             ])
 
-            # server = smtplib.SMTP()
-            # server.connect('smtp.gmail.com', 587)
-            # server.ehlo()
-            # server.starttls()
-            # server.login(teacher_email, password)
-            # server.sendmail(fromaddr, toaddrs, msg)
-            # server.quit()
+            server = smtplib.SMTP()
+            server.connect('smtp.gmail.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.login(teacher_email, password)
+            server.sendmail(fromaddr, toaddrs, msg)
+            server.quit()
         else:
             pass
