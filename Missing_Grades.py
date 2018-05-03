@@ -119,13 +119,13 @@ for i in range(0, len(Gradebook['First Name'])):
                 "" + message + ""
             ])
 
-            # server = smtplib.SMTP()
-            # server.connect('smtp.gmail.com', 587)
-            # server.ehlo()
-            # server.starttls()
-            # server.login(teacher_email, password)
-            # server.sendmail(fromaddr, toaddrs, msg)
-            # server.quit()
+            server = smtplib.SMTP()
+            server.connect('smtp.gmail.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.login(teacher_email, password)
+            server.sendmail(fromaddr, toaddrs, msg)
+            server.quit()
 
         else:
             # message to parent
@@ -145,10 +145,10 @@ for i in range(0, len(Gradebook['First Name'])):
                 "" + message + ""
             ])
 
-            # server = smtplib.SMTP()
-            # server.connect('smtp.gmail.com', 587)
-            # server.ehlo()
-            # server.starttls()
-            # server.login(teacher_email, password)
-            # server.sendmail(fromaddr, toaddrs, msg)
-            # server.quit()
+            server = smtplib.SMTP()
+            server.connect('smtp.gmail.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.login(teacher_email, password)
+            server.sendmail(fromaddr, toaddrs, msg)
+            server.quit()
